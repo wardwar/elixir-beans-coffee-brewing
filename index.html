@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="V60 Manual Brew Timer - Guide your perfect coffee brewing process">
-    <meta name="theme-color" content="#6C5CE7">
-    <title>V60 Brew Timer</title>
+    <meta name="description" content="Elixir Beans - V60 Manual Brew Timer for coffee adventurers">
+    <meta name="theme-color" content="#6B3A7C">
+    <title>Elixir Beans | V60 Brew Timer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,30 +15,56 @@
         <!-- Home Screen -->
         <section id="home-screen" class="screen active">
             <header class="app-header">
-                <h1 class="app-title">V60 Brew Timer</h1>
-                <p class="app-subtitle">Perfect your pour-over</p>
+                <div class="brand-badge">⚗️</div>
+                <h1 class="app-title">Elixir Beans</h1>
+                <p class="app-subtitle">for coffee adventurers</p>
+                <div class="star-decoration" style="top: 20px; left: 50%; transform: translateX(-80px);">✦</div>
+                <div class="star-decoration" style="top: 20px; right: 50%; transform: translateX(80px); animation-delay: 1s;">✦</div>
             </header>
 
             <!-- Quick Start Card -->
             <div class="quick-start-card card">
-                <h2 class="card-title">Quick Start</h2>
-                <div class="input-group">
-                    <label for="coffee-weight-input">Coffee Weight (g)</label>
-                    <input type="number" id="coffee-weight-input" class="input-field" value="30" min="10" max="50" step="1">
+                <h2 class="card-title">Brew Parameters</h2>
+                <p class="card-subtitle">Customize your brewing settings or select a recipe below</p>
+
+                <div class="parameters-grid">
+                    <div class="input-group">
+                        <label for="coffee-weight-input">☕ Coffee Weight (g)</label>
+                        <input type="number" id="coffee-weight-input" class="input-field" value="30" min="10" max="50" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="ratio-select">💧 Water Ratio</label>
+                        <select id="ratio-select" class="input-field">
+                            <option value="15">1:15 (Strong)</option>
+                            <option value="16" selected>1:16 (Balanced)</option>
+                            <option value="16.67">1:16.67 (Hoffmann)</option>
+                            <option value="17">1:17 (Light)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label for="ratio-select">Water Ratio</label>
-                    <select id="ratio-select" class="input-field">
-                        <option value="15">1:15 (Strong)</option>
-                        <option value="16" selected>1:16 (Balanced)</option>
-                        <option value="16.67">1:16.67 (Hoffmann)</option>
-                        <option value="17">1:17 (Light)</option>
-                    </select>
+
+                <div class="parameters-grid">
+                    <div class="input-group">
+                        <label for="temp-input">🌡️ Temperature (°C)</label>
+                        <input type="number" id="temp-input" class="input-field" value="95" min="85" max="100" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="grind-select">⚙️ Grind Size</label>
+                        <select id="grind-select" class="input-field">
+                            <option value="Fine">Fine</option>
+                            <option value="Medium-fine" selected>Medium-fine</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Medium-coarse">Medium-coarse</option>
+                            <option value="Coarse">Coarse</option>
+                        </select>
+                    </div>
                 </div>
+
                 <div class="water-calc">
                     <span class="water-label">Total Water:</span>
                     <span id="water-amount" class="water-value">500g</span>
                 </div>
+
                 <button id="start-brew-btn" class="btn btn-primary btn-large">Start Brewing</button>
             </div>
 
@@ -80,6 +106,28 @@
                     <button class="btn btn-secondary recipe-select-btn">Select</button>
                 </div>
 
+                <div class="recipe-card card" data-recipe-id="kasuya-switch-hybrid">
+                    <div class="recipe-icon">🔄</div>
+                    <h3 class="recipe-name">Kasuya Hybrid</h3>
+                    <p class="recipe-description">Smooth immersion-percolation switch method</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ 4:00</span>
+                        <span class="meta-item difficulty-beginner">Beginner</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Select</button>
+                </div>
+
+                <div class="recipe-card card" data-recipe-id="switch-immersion">
+                    <div class="recipe-icon">⏸️</div>
+                    <h3 class="recipe-name">Simple Immersion</h3>
+                    <p class="recipe-description">Easy and forgiving switch brewing</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ 4:15</span>
+                        <span class="meta-item difficulty-beginner">Beginner</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Select</button>
+                </div>
+
                 <div class="recipe-card card" data-recipe-id="custom">
                     <div class="recipe-icon">✏️</div>
                     <h3 class="recipe-name">Custom Recipe</h3>
@@ -112,23 +160,35 @@
 
             <div class="prep-content">
                 <div class="prep-info card">
-                    <h3>Get Ready</h3>
+                    <h3>Brew Parameters</h3>
                     <div class="prep-details">
                         <div class="detail-item">
-                            <span class="detail-label">Coffee:</span>
+                            <span class="detail-label">☕ Coffee</span>
                             <span id="prep-coffee-weight" class="detail-value">30g</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Water:</span>
+                            <span class="detail-label">💧 Water</span>
                             <span id="prep-water-weight" class="detail-value">500g</span>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Temperature:</span>
-                            <span id="prep-temp" class="detail-value">95°C</span>
+                    </div>
+                </div>
+
+                <div class="prep-suggestions card">
+                    <h3>Recommended Settings</h3>
+                    <div class="suggestion-grid">
+                        <div class="suggestion-item">
+                            <span class="suggestion-icon">🌡️</span>
+                            <div class="suggestion-content">
+                                <span class="suggestion-label">Temperature</span>
+                                <span id="prep-temp" class="suggestion-value">95°C</span>
+                            </div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Grind:</span>
-                            <span class="detail-value">Medium-fine</span>
+                        <div class="suggestion-item">
+                            <span class="suggestion-icon">⚙️</span>
+                            <div class="suggestion-content">
+                                <span class="suggestion-label">Grind Size</span>
+                                <span id="prep-grind-size" class="suggestion-value">Medium-fine</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,7 +235,7 @@
                         <circle id="timer-progress" class="timer-progress" cx="100" cy="100" r="90"></circle>
                     </svg>
                     <div class="timer-center">
-                        <div class="timer-icon">💧</div>
+                        <div class="timer-icon">⚗️</div>
                         <div id="timer-display" class="timer-display">0:00</div>
                         <div id="phase-label" class="phase-label">Bloom</div>
                     </div>

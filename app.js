@@ -12,6 +12,7 @@ const recipes = {
     totalWater: 500,
     totalTime: 210,
     temperature: 95,
+    grindSize: 'Medium-fine',
     phases: [
       {
         name: 'Bloom',
@@ -61,6 +62,7 @@ const recipes = {
     totalWater: 300,
     totalTime: 210,
     temperature: 92,
+    grindSize: 'Medium',
     phases: [
       {
         name: 'Pour 1 (40%)',
@@ -110,6 +112,7 @@ const recipes = {
     totalWater: 363,
     totalTime: 180,
     temperature: 96,
+    grindSize: 'Medium-fine',
     phases: [
       {
         name: 'Bloom',
@@ -134,6 +137,100 @@ const recipes = {
         duration: 110,
         waterAmount: 0,
         instruction: 'Drain to target 3:00 total time'
+      }
+    ]
+  },
+  // Hario Switch Recipes
+  'kasuya-switch-hybrid': {
+    id: 'kasuya-switch-hybrid',
+    name: 'Tetsu Kasuya Hybrid',
+    brewer: 'Hario Switch',
+    description: 'Smooth and sweet with clean aftertaste',
+    difficulty: 'Beginner',
+    coffeeWeight: 15,
+    ratio: 16,
+    totalWater: 240,
+    totalTime: 240,
+    temperature: 90,
+    grindSize: 'Medium',
+    phases: [
+      {
+        name: 'Preparation',
+        duration: 0,
+        waterAmount: 0,
+        instruction: 'Close switch, rinse filter, add coffee',
+        switchClosed: true
+      },
+      {
+        name: 'Immersion Brew',
+        duration: 120,
+        waterAmount: 150,
+        instruction: 'Pour 150g of 90°C water with switch closed, let steep',
+        switchClosed: true
+      },
+      {
+        name: 'Stir',
+        duration: 60,
+        waterAmount: 0,
+        instruction: 'At 2:00, gently stir with spoon to knock grounds off sides',
+        switchClosed: true
+      },
+      {
+        name: 'Drain',
+        duration: 60,
+        waterAmount: 0,
+        instruction: 'At 3:00, open switch and let drain (should finish around 4:00)',
+        switchClosed: false
+      }
+    ]
+  },
+  'switch-immersion': {
+    id: 'switch-immersion',
+    name: 'Simple Immersion',
+    brewer: 'Hario Switch',
+    description: 'Easy, forgiving method perfect for consistent results',
+    difficulty: 'Beginner',
+    coffeeWeight: 15,
+    ratio: 16,
+    totalWater: 240,
+    totalTime: 255,
+    temperature: 95,
+    grindSize: 'Medium-coarse',
+    phases: [
+      {
+        name: 'Setup',
+        duration: 0,
+        waterAmount: 0,
+        instruction: 'Close switch, rinse filter, add coffee and shake to level',
+        switchClosed: true
+      },
+      {
+        name: 'Full Pour',
+        duration: 15,
+        waterAmount: 240,
+        instruction: 'Pour all 240g water quickly (within 15 seconds)',
+        switchClosed: true
+      },
+      {
+        name: 'Steep',
+        duration: 105,
+        waterAmount: 0,
+        instruction: 'Let steep for 2 minutes total from start',
+        switchClosed: true
+      },
+      {
+        name: 'Stir & Wait',
+        duration: 15,
+        waterAmount: 0,
+        instruction: 'At 2:00, stir gently (2x counter-clockwise, 2x clockwise)',
+        switchClosed: true
+      },
+      {
+        name: 'Release',
+        duration: 120,
+        waterAmount: 0,
+        instruction: 'At 2:15, open switch and let drain completely',
+        switchClosed: false
       }
     ]
   }
@@ -287,11 +384,11 @@ document.getElementById('coffee-weight-input').addEventListener('input', updateW
 document.getElementById('ratio-select').addEventListener('change', updateWaterCalculation);
 
 document.getElementById('start-brew-btn').addEventListener('click', () => {
-  const recipeId = 'james-hoffmann'; // Default recipe
-  startBrewProcess(recipeId);
+  // Use manual values from Quick Start instead of forcing a recipe
+  startManualBrew();
 });
 
-// Recipe card selection
+// Recipe card selection - populates Quick Start fields with recipe defaults
 document.querySelectorAll('.recipe-select-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     const card = e.target.closest('.recipe-card');
@@ -302,9 +399,82 @@ document.querySelectorAll('.recipe-select-btn').forEach(btn => {
       return;
     }
 
-    startBrewProcess(recipeId);
+    // Load recipe into Quick Start fields so user can review/modify before brewing
+    const recipe = recipes[recipeId];
+    if (recipe) {
+      document.getElementById('coffee-weight-input').value = recipe.coffeeWeight;
+      document.getElementById('ratio-select').value = recipe.ratio;
+      document.getElementById('temp-input').value = recipe.temperature;
+      document.getElementById('grind-select').value = recipe.grindSize;
+      updateWaterCalculation();
+
+      // Show visual feedback
+      const quickStartCard = document.querySelector('.quick-start-card');
+      quickStartCard.style.animation = 'pulse 0.5s ease-out';
+      setTimeout(() => {
+        quickStartCard.style.animation = '';
+      }, 500);
+
+      // Scroll to Quick Start section
+      quickStartCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 });
+
+function startManualBrew() {
+  // Create a manual recipe using the user's input values from Quick Start
+  const coffeeWeight = parseFloat(document.getElementById('coffee-weight-input').value);
+  const ratio = parseFloat(document.getElementById('ratio-select').value);
+  const totalWater = Math.round(coffeeWeight * ratio);
+  const temperature = parseFloat(document.getElementById('temp-input').value);
+  const grindSize = document.getElementById('grind-select').value;
+
+  // Create a simple manual recipe based on user input
+  state.currentRecipe = {
+    id: 'manual',
+    name: 'Manual Brew',
+    description: 'Custom brew with your settings',
+    difficulty: 'Custom',
+    coffeeWeight: coffeeWeight,
+    ratio: ratio,
+    totalWater: totalWater,
+    totalTime: 210,
+    temperature: temperature,
+    grindSize: grindSize,
+    phases: [
+      {
+        name: 'Bloom',
+        duration: 45,
+        waterAmount: Math.round(coffeeWeight * 2),
+        instruction: 'Pour water in circular motion, ensure all grounds are wet'
+      },
+      {
+        name: 'Main Pour',
+        duration: 120,
+        waterAmount: totalWater - Math.round(coffeeWeight * 2),
+        instruction: 'Pour remaining water in steady circular motion'
+      },
+      {
+        name: 'Drawdown',
+        duration: 45,
+        waterAmount: 0,
+        instruction: 'Let coffee drain completely'
+      }
+    ]
+  };
+
+  state.currentPhaseIndex = 0;
+  state.isPaused = false;
+  state.pausedTime = 0;
+  state.elapsedTime = 0;
+
+  // Update current brew data
+  state.currentBrew.coffeeWeight = coffeeWeight;
+  state.currentBrew.waterRatio = ratio;
+  state.currentBrew.totalWater = totalWater;
+
+  showPrepScreen();
+}
 
 function startBrewProcess(recipeId) {
   state.currentRecipe = recipes[recipeId];
@@ -356,9 +526,16 @@ document.getElementById('view-all-history').addEventListener('click', (e) => {
 function showPrepScreen() {
   showScreen('prep');
 
-  document.getElementById('prep-coffee-weight').textContent = `${state.currentBrew.coffeeWeight}g`;
-  document.getElementById('prep-water-weight').textContent = `${state.currentBrew.totalWater}g`;
-  document.getElementById('prep-temp').textContent = `${state.currentRecipe?.temperature || 95}°C`;
+  // Ensure we're using the current recipe's values
+  const coffeeWeight = state.currentRecipe?.coffeeWeight || state.currentBrew.coffeeWeight;
+  const totalWater = state.currentRecipe?.totalWater || state.currentBrew.totalWater;
+  const temperature = state.currentRecipe?.temperature || 95;
+  const grindSize = state.currentRecipe?.grindSize || 'Medium-fine';
+
+  document.getElementById('prep-coffee-weight').textContent = `${coffeeWeight}g`;
+  document.getElementById('prep-water-weight').textContent = `${totalWater}g`;
+  document.getElementById('prep-temp').textContent = `${temperature}°C`;
+  document.getElementById('prep-grind-size').textContent = grindSize;
 
   // Reset checkboxes
   document.querySelectorAll('.checklist-checkbox').forEach(cb => {
@@ -812,13 +989,14 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
 function init() {
   loadSettings();
   loadSettingsUI();
-  updateWaterCalculation();
   renderRecentBrews();
   showScreen('home');
 
-  // Apply default settings to home screen
+  // Apply default settings to home screen Quick Start
   document.getElementById('coffee-weight-input').value = state.settings.defaultCoffeeWeight;
   document.getElementById('ratio-select').value = state.settings.defaultRatio;
+  document.getElementById('temp-input').value = state.settings.defaultTemp;
+  document.getElementById('grind-select').value = 'Medium-fine';
   updateWaterCalculation();
 }
 
@@ -841,11 +1019,11 @@ gradient.setAttribute('y2', '100%');
 
 const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
 stop1.setAttribute('offset', '0%');
-stop1.setAttribute('style', 'stop-color:#6C5CE7;stop-opacity:1');
+stop1.setAttribute('style', 'stop-color:#6B3A7C;stop-opacity:1');
 
 const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
 stop2.setAttribute('offset', '100%');
-stop2.setAttribute('style', 'stop-color:#74B9FF;stop-opacity:1');
+stop2.setAttribute('style', 'stop-color:#8B5A9C;stop-opacity:1');
 
 gradient.appendChild(stop1);
 gradient.appendChild(stop2);

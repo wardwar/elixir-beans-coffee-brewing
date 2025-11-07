@@ -1,6 +1,8 @@
-# V60 Brew Timer
+# Elixir Beans - V60 Brew Timer
 
-A beautiful, minimalist web application for guiding users through the V60 manual coffee brewing process with precise timing, pour tracking, and brewing techniques.
+⚗️ **for coffee adventurers**
+
+A beautiful, mystical web application for guiding users through the V60 manual coffee brewing process with precise timing, pour tracking, and brewing techniques. Part of the Enchantment Series by Elixir Beans.
 
 ## Features
 
@@ -20,11 +22,25 @@ A beautiful, minimalist web application for guiding users through the V60 manual
 - **Data Export/Import**: Export your brew history and settings as JSON
 
 ### Design Features
+- **Vintage Badge Aesthetic**: Mystical, apothecary-inspired design
+- **Elixir Beans Brand Colors**: Deep purple (#6B3A7C) and warm cream (#F4E4C1)
+- **Decorative Elements**: Four-pointed stars, halftone patterns, badge-style borders
 - Mobile-first responsive design
-- Clean, minimal aesthetic with generous spacing
-- Smooth animations and transitions
+- Smooth animations with magical sparkle effects
 - Accessible (WCAG AA compliant)
 - Works offline (no internet required after initial load)
+
+## Brand Identity
+
+**Elixir Beans** is a coffee adventure brand with a vintage apothecary aesthetic. The V60 Brew Timer is part of the "Enchantment Series" - a collection of tools and experiences designed to transform your coffee ritual into a magical journey.
+
+### Visual Style
+- **Mystical & Magical**: Coffee brewing as alchemy
+- **Vintage Badge Design**: Circular badges with concentric rings
+- **Elixir Iconography**: Coffee pot/potion bottle symbols
+- **Decorative Stars**: Four-pointed sparkles throughout
+- **Warm & Inviting**: Cream and purple color harmony
+- **Adventure-Themed**: "for coffee adventurers" spirit
 
 ## Installation
 
@@ -181,11 +197,13 @@ Tested and working on:
 
 ### Design System
 
-#### Colors
-- **Primary**: Blue/Purple gradient (#6C5CE7 to #5849C7)
-- **Coffee Tones**: Warm browns and oranges
-- **Accents**: Water blue, success green, alert orange
-- **Neutral**: Light backgrounds, dark text
+#### Elixir Beans Color Palette
+- **Primary**: Deep Purple (#6B3A7C) - Elixir Purple
+- **Secondary**: Cream/Beige (#F4E4C1, #E8D4A8) - Warm backgrounds
+- **Accent**: Orange/Gold (#FF8C42, #FFA500) - CTAs and highlights
+- **Background**: Warm Cream (#FFF9F0)
+- **Success**: Emerald Green (#00D9A5)
+- **Text**: Rich Brown (#3E2723) primary, Purple (#6B3A7C) secondary
 
 #### Typography
 - System font stack for optimal performance
@@ -259,12 +277,15 @@ const recipes = {
 
 ### Customizing Colors
 
-Modify CSS variables in `styles.css`:
+Modify Elixir Beans design tokens in `styles.css`:
 
 ```css
 :root {
-  --color-brew-blue: #6C5CE7;
-  --color-coffee-warm: #D4A574;
+  /* Elixir Beans Brand Colors */
+  --color-elixir-purple: #6B3A7C;
+  --color-elixir-cream: #F4E4C1;
+  --color-enchantment-orange: #FF8C42;
+  --color-magic-gold: #FFA500;
   /* ... more variables */
 }
 ```
@@ -319,12 +340,18 @@ This project is open source and available for personal and commercial use.
 
 ## Credits
 
-Recipes based on techniques by:
+**Elixir Beans - for coffee adventurers**
+
+Brewing recipes based on techniques by:
 - James Hoffmann (Coffee expert and YouTube creator)
 - Tetsu Kasuya (World Brewers Cup Champion 2016)
 - Scott Rao (Coffee consultant and author)
 
-Design inspired by modern coffee culture and minimalist UI principles.
+Design inspired by:
+- Vintage apothecary and alchemy aesthetics
+- Badge and emblem design traditions
+- Coffee as a magical ritual
+- Adventure and discovery themes
 
 ## Support
 
