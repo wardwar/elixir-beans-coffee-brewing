@@ -1,0 +1,665 @@
+{
+  "projectPrompt": {
+    "projectName": "V60 Manual Brew Timer App",
+    "description": "A beautiful, minimalist web application for guiding users through the V60 manual coffee brewing process with precise timing, pour tracking, and brewing techniques",
+    "technology": {
+      "stack": ["HTML5", "CSS3", "Vanilla JavaScript"],
+      "constraints": [
+        "No frameworks or libraries required",
+        "Single page application",
+        "Responsive design",
+        "Works offline (optional PWA)",
+        "Mobile-first approach"
+      ]
+    },
+
+    "designSystemAlignment": {
+      "referenceSystem": "Fitness Dashboard Design System (provided)",
+      "adaptations": [
+        "Maintain rounded corners (16-24px) throughout",
+        "Use similar card-based layout with white backgrounds",
+        "Apply purple/blue as primary color for brewing states",
+        "Use warm orange/brown tones for coffee-related elements",
+        "Keep green for success states and completion",
+        "Maintain clean, minimal aesthetic with generous spacing",
+        "Use similar progress indicators (circular and linear)",
+        "Apply consistent shadow and depth patterns",
+        "Match typography hierarchy and weights"
+      ],
+
+      "colorPaletteAdaptation": {
+        "primary": {
+          "brewBlue": "#6C5CE7",
+          "brewBlueDark": "#5849C7",
+          "coffeeWarm": "#D4A574"
+        },
+        "secondary": {
+          "coffeeRich": "#8B4513",
+          "coffeeDark": "#3E2723",
+          "coffeeLight": "#F5DEB3"
+        },
+        "accent": {
+          "waterBlue": "#74B9FF",
+          "steamGray": "#95A5A6",
+          "successGreen": "#00D9A5",
+          "alertOrange": "#FF9F43"
+        },
+        "neutral": {
+          "background": "#F5F6FA",
+          "cardWhite": "#FFFFFF",
+          "textPrimary": "#2D3436",
+          "textSecondary": "#636E72"
+        }
+      }
+    },
+
+    "coreFeatures": [
+      {
+        "feature": "Brew Timer",
+        "description": "Main timer interface with visual progress indication",
+        "components": [
+          "Large circular timer display",
+          "Start/Pause/Reset controls",
+          "Current phase indicator",
+          "Next step preview"
+        ]
+      },
+      {
+        "feature": "Pour Tracking",
+        "description": "Track multiple pour stages with weight and timing",
+        "components": [
+          "Pour counter (1st pour, 2nd pour, etc.)",
+          "Water weight input/tracking",
+          "Target weight indicators",
+          "Pour interval timing"
+        ]
+      },
+      {
+        "feature": "Brew Recipes",
+        "description": "Multiple V60 brewing methods to choose from",
+        "recipes": [
+          "Classic Method (James Hoffmann)",
+          "4:6 Method (Tetsu Kasuya)",
+          "Scott Rao Method",
+          "Custom Recipe"
+        ]
+      },
+      {
+        "feature": "Brew History",
+        "description": "Save and review past brews with notes",
+        "components": [
+          "Brew log with date/time",
+          "Recipe used",
+          "Tasting notes",
+          "Rating system"
+        ]
+      },
+      {
+        "feature": "Settings",
+        "description": "Customize brewing parameters",
+        "options": [
+          "Coffee dose (grams)",
+          "Water ratio (1:15, 1:16, etc.)",
+          "Bloom time",
+          "Total brew time",
+          "Water temperature"
+        ]
+      }
+    ],
+
+    "userFlow": [
+      {
+        "step": 1,
+        "screen": "Home/Recipe Selection",
+        "description": "User selects brewing method and inputs coffee weight",
+        "actions": [
+          "Choose recipe from cards",
+          "Input coffee weight (default 20g)",
+          "System calculates total water needed",
+          "Tap 'Start Brewing' button"
+        ]
+      },
+      {
+        "step": 2,
+        "screen": "Preparation Phase",
+        "description": "Pre-brew checklist and setup",
+        "elements": [
+          "Checklist: Rinse filter, add coffee, zero scale",
+          "Target temperature display",
+          "Ready button to proceed"
+        ]
+      },
+      {
+        "step": 3,
+        "screen": "Bloom Phase",
+        "description": "Initial water pour for blooming",
+        "elements": [
+          "Timer starts automatically",
+          "Target weight display (typically 2x coffee weight)",
+          "Circular progress indicator",
+          "Instruction text: 'Pour 40g of water in circular motion'"
+        ]
+      },
+      {
+        "step": 4,
+        "screen": "Main Pour Phases",
+        "description": "Multiple pour stages with timing",
+        "elements": [
+          "Pour number indicator (Pour 2 of 5)",
+          "Target weight display (animated to target)",
+          "Time elapsed / Phase duration",
+          "Circular progress for phase timing",
+          "Auto-advance to next phase when time complete"
+        ],
+        "note": "Manual weight input removed - not practical without BLE scale. Focus on timer-based guidance."
+      },
+      {
+        "step": 5,
+        "screen": "Drawdown Phase",
+        "description": "Waiting for water to drain",
+        "elements": [
+          "Timer continues",
+          "Target total time display",
+          "Drawdown animation or indicator",
+          "Notification when target time reached"
+        ]
+      },
+      {
+        "step": 6,
+        "screen": "Completion",
+        "description": "Brew finished summary",
+        "elements": [
+          "Success message with animation",
+          "Total brew time",
+          "Total water used",
+          "Save brew button",
+          "Add tasting notes",
+          "Rate your brew (1-5 stars)",
+          "Brew again / Home buttons"
+        ]
+      }
+    ],
+
+    "componentSpecifications": {
+      "BrewTimer": {
+        "type": "Circular progress timer",
+        "design": {
+          "diameter": "200px",
+          "strokeWidth": "12px",
+          "backgroundColor": "#F0F0F0",
+          "progressColor": "brewBlue gradient",
+          "centerContent": {
+            "mainTime": "Large time display (02:30)",
+            "phaseLabel": "Small label (Bloom, Pour 2, etc.)",
+            "icon": "Coffee cup or drop icon"
+          }
+        },
+        "functionality": [
+          "Countdown or count-up mode",
+          "Audio/vibration alerts at phase changes",
+          "Pause/resume capability",
+          "Reset with confirmation"
+        ]
+      },
+
+      "RecipeCard": {
+        "design": {
+          "layout": "White card with shadow",
+          "borderRadius": "20px",
+          "padding": "20px",
+          "height": "auto",
+          "hover": "Slight elevation increase"
+        },
+        "content": [
+          "Recipe name (bold, 18px)",
+          "Brief description",
+          "Key metrics (brew time, difficulty)",
+          "Visual indicator or illustration",
+          "Select button"
+        ]
+      },
+
+      "PourIndicator": {
+        "design": {
+          "type": "Horizontal card or section",
+          "background": "White card",
+          "highlight": "Colored left border (4px)"
+        },
+        "content": [
+          "Pour number badge",
+          "Target weight display (large, prominent)",
+          "Animated water wave or fill indicator",
+          "Phase timer (elapsed / duration)",
+          "Pour instruction text"
+        ],
+        "note": "Simplified for non-BLE version - no manual weight input needed"
+      },
+
+      "BrewHistoryItem": {
+        "design": {
+          "layout": "List item card",
+          "borderRadius": "16px",
+          "spacing": "12px between items"
+        },
+        "content": [
+          "Date/time stamp",
+          "Recipe name",
+          "Coffee weight : water ratio",
+          "Star rating",
+          "Tasting note preview",
+          "Expand for full details"
+        ]
+      },
+
+      "ControlButtons": {
+        "variants": {
+          "primary": {
+            "background": "brewBlue gradient",
+            "color": "white",
+            "borderRadius": "16px",
+            "padding": "16px 32px",
+            "fontSize": "16px",
+            "fontWeight": "600"
+          },
+          "secondary": {
+            "background": "white",
+            "color": "brewBlue",
+            "border": "2px solid brewBlue"
+          },
+          "ghost": {
+            "background": "transparent",
+            "color": "textSecondary"
+          }
+        }
+      },
+
+      "ProgressBar": {
+        "design": {
+          "height": "8px",
+          "borderRadius": "4px",
+          "background": "#E0E0E0",
+          "fill": "brewBlue",
+          "animation": "Smooth fill transition"
+        }
+      },
+
+      "InputField": {
+        "design": {
+          "borderRadius": "12px",
+          "border": "2px solid #E0E0E0",
+          "padding": "12px 16px",
+          "fontSize": "16px",
+          "focus": "Border color changes to brewBlue"
+        }
+      },
+
+      "NavigationBar": {
+        "position": "Bottom fixed",
+        "design": {
+          "height": "64px",
+          "background": "white",
+          "borderTop": "1px solid #E0E0E0",
+          "items": 4
+        },
+        "items": [
+          {
+            "label": "Brew",
+            "icon": "Coffee cup",
+            "route": "/"
+          },
+          {
+            "label": "Recipes",
+            "icon": "Book/List",
+            "route": "/recipes"
+          },
+          {
+            "label": "History",
+            "icon": "Clock/Calendar",
+            "route": "/history"
+          },
+          {
+            "label": "Settings",
+            "icon": "Gear",
+            "route": "/settings"
+          }
+        ]
+      }
+    },
+
+    "layoutStructure": {
+      "global": {
+        "maxWidth": "480px",
+        "margin": "0 auto",
+        "padding": "20px",
+        "background": "#F5F6FA"
+      },
+
+      "homeScreen": {
+        "sections": [
+          {
+            "element": "Header",
+            "content": "V60 Brew Timer logo/title",
+            "alignment": "Center"
+          },
+          {
+            "element": "Quick Start Card",
+            "content": "Coffee weight input and ratio selector",
+            "cta": "Start Brewing button"
+          },
+          {
+            "element": "Recipe Grid",
+            "layout": "2-column grid on mobile, 3-column on tablet",
+            "spacing": "16px gap"
+          },
+          {
+            "element": "Recent Brews",
+            "content": "Last 3 brew sessions",
+            "link": "View All"
+          }
+        ]
+      },
+
+      "brewScreen": {
+        "sections": [
+          {
+            "element": "Header",
+            "content": "Back button, Phase name, Menu",
+            "position": "Sticky top"
+          },
+          {
+            "element": "Main Timer",
+            "content": "Large circular timer",
+            "position": "Center, prominent"
+          },
+          {
+            "element": "Current Pour Info",
+            "content": "Weight and time details",
+            "position": "Below timer"
+          },
+          {
+            "element": "Next Step Preview",
+            "content": "What comes next",
+            "style": "Subtle, gray card"
+          },
+          {
+            "element": "Control Buttons",
+            "content": "Pause/Resume, Reset, Next",
+            "position": "Bottom, above nav"
+          }
+        ]
+      }
+    },
+
+    "animations": {
+      "pageTransitions": {
+        "type": "Slide or fade",
+        "duration": "300ms",
+        "easing": "ease-in-out"
+      },
+      "progressIndicators": {
+        "circularTimer": "Stroke-dasharray animation",
+        "progressBar": "Width transition",
+        "duration": "200ms"
+      },
+      "buttonStates": {
+        "hover": "Scale 1.02, shadow increase",
+        "active": "Scale 0.98",
+        "disabled": "Opacity 0.5"
+      },
+      "alerts": {
+        "phaseChange": "Gentle pulse or fade-in",
+        "completion": "Confetti or success animation"
+      }
+    },
+
+    "dataManagement": {
+      "localStorage": {
+        "brewHistory": "Array of brew objects",
+        "userSettings": "Preferences object",
+        "customRecipes": "Array of user-created recipes"
+      },
+      "brewObject": {
+        "id": "Unique identifier",
+        "timestamp": "Date and time",
+        "recipe": "Recipe name/id",
+        "coffeeWeight": "Grams",
+        "waterWeight": "Total water used",
+        "brewTime": "Total time in seconds",
+        "rating": "1-5 stars",
+        "notes": "Text string"
+      }
+    },
+
+    "responsiveDesign": {
+      "mobile": {
+        "breakpoint": "320-480px",
+        "layout": "Single column, full width cards",
+        "fontSize": "Base 16px",
+        "timerSize": "180px"
+      },
+      "tablet": {
+        "breakpoint": "481-768px",
+        "layout": "2-column grid where appropriate",
+        "fontSize": "Base 16px",
+        "timerSize": "220px"
+      },
+      "desktop": {
+        "breakpoint": "769px+",
+        "layout": "Max width 480px, centered",
+        "fontSize": "Base 18px",
+        "timerSize": "240px",
+        "note": "Maintain mobile-app feel"
+      }
+    },
+
+    "accessibility": {
+      "requirements": [
+        "WCAG AA contrast ratios",
+        "Keyboard navigation support",
+        "Screen reader friendly labels",
+        "Focus indicators on interactive elements",
+        "Touch targets minimum 44x44px",
+        "Text scales with browser settings",
+        "Sufficient color contrast for all text",
+        "Alternative text for icons"
+      ]
+    },
+
+    "fileStructure": {
+      "html": {
+        "index.html": "Main entry point, contains all screens in sections"
+      },
+      "css": {
+        "styles.css": {
+          "sections": [
+            "CSS Variables (design tokens)",
+            "Reset/Base styles",
+            "Typography",
+            "Layout utilities",
+            "Component styles",
+            "Animations",
+            "Responsive media queries"
+          ]
+        }
+      },
+      "javascript": {
+        "app.js": {
+          "modules": [
+            "State management",
+            "Timer logic",
+            "Recipe data",
+            "Local storage handling",
+            "UI updates",
+            "Event listeners",
+            "Navigation"
+          ]
+        }
+      }
+    },
+
+    "implementationPriority": [
+      {
+        "phase": 1,
+        "priority": "MVP",
+        "features": [
+          "Basic timer functionality",
+          "Single recipe (James Hoffmann method)",
+          "Start/pause/reset controls",
+          "Simple pour tracking",
+          "Minimal UI"
+        ]
+      },
+      {
+        "phase": 2,
+        "priority": "Enhanced",
+        "features": [
+          "Multiple recipes",
+          "Recipe selection screen",
+          "Brew history (save only)",
+          "Settings for coffee weight and ratio",
+          "Improved animations"
+        ]
+      },
+      {
+        "phase": 3,
+        "priority": "Complete",
+        "features": [
+          "Full brew history with notes",
+          "Custom recipe creation",
+          "Rating system",
+          "Export/share brew data",
+          "PWA capabilities"
+        ]
+      }
+    ],
+
+    "sampleRecipeData": {
+      "recipe": {
+        "id": "james-hoffmann",
+        "name": "James Hoffmann Method",
+        "description": "The ultimate V60 technique for clarity and balance",
+        "difficulty": "Intermediate",
+        "coffeeWeight": 30,
+        "ratio": 16.67,
+        "totalWater": 500,
+        "totalTime": 210,
+        "temperature": 95,
+        "phases": [
+          {
+            "name": "Bloom",
+            "duration": 45,
+            "waterAmount": 60,
+            "instruction": "Pour water in circular motion, ensure all grounds are wet"
+          },
+          {
+            "name": "Pour 1",
+            "duration": 30,
+            "waterAmount": 120,
+            "instruction": "Pour to 180g total, gentle spiral from center"
+          },
+          {
+            "name": "Pour 2",
+            "duration": 30,
+            "waterAmount": 120,
+            "instruction": "Pour to 300g total, maintain steady flow"
+          },
+          {
+            "name": "Pour 3",
+            "duration": 30,
+            "waterAmount": 100,
+            "instruction": "Pour to 400g total, focus on center"
+          },
+          {
+            "name": "Final Pour",
+            "duration": 30,
+            "waterAmount": 100,
+            "instruction": "Pour to 500g total, gentle finish"
+          },
+          {
+            "name": "Drawdown",
+            "duration": 45,
+            "waterAmount": 0,
+            "instruction": "Let coffee drain, target 3:30 total time"
+          }
+        ]
+      }
+    },
+
+    "designTokensCSS": {
+      "example": ":root {\n  /* Colors */\n  --color-brew-blue: #6C5CE7;\n  --color-brew-blue-dark: #5849C7;\n  --color-coffee-warm: #D4A574;\n  --color-coffee-rich: #8B4513;\n  --color-background: #F5F6FA;\n  --color-card-white: #FFFFFF;\n  --color-text-primary: #2D3436;\n  --color-text-secondary: #636E72;\n  --color-success: #00D9A5;\n  --color-alert: #FF9F43;\n  \n  /* Spacing */\n  --spacing-xs: 4px;\n  --spacing-sm: 8px;\n  --spacing-md: 16px;\n  --spacing-lg: 24px;\n  --spacing-xl: 32px;\n  \n  /* Border Radius */\n  --radius-sm: 8px;\n  --radius-md: 16px;\n  --radius-lg: 24px;\n  --radius-xl: 32px;\n  \n  /* Shadows */\n  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);\n  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);\n  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);\n  \n  /* Typography */\n  --font-size-xs: 12px;\n  --font-size-sm: 14px;\n  --font-size-base: 16px;\n  --font-size-lg: 18px;\n  --font-size-xl: 24px;\n  --font-size-2xl: 32px;\n  --font-size-3xl: 48px;\n  \n  --font-weight-normal: 400;\n  --font-weight-medium: 500;\n  --font-weight-semibold: 600;\n  --font-weight-bold: 700;\n}"
+    },
+
+    "userExperience": {
+      "principles": [
+        "Minimize user input during brewing",
+        "Clear visual hierarchy for current task",
+        "Predictable navigation patterns",
+        "Immediate feedback on all interactions",
+        "Graceful error handling",
+        "Non-intrusive notifications"
+      ],
+      "feedback": {
+        "success": "Green checkmark, subtle celebration",
+        "error": "Orange alert, clear message",
+        "inProgress": "Blue loading indicator",
+        "completed": "Green badge or icon"
+      }
+    },
+
+    "testingConsiderations": [
+      "Timer accuracy across different browsers",
+      "Local storage persistence",
+      "Touch interactions on mobile devices",
+      "Screen rotation handling",
+      "Long brew session memory management",
+      "Audio alert functionality",
+      "Offline capability",
+      "Data export/import"
+    ],
+
+    "futureEnhancements": [
+      "Bluetooth scale integration",
+      "Video tutorials for each recipe",
+      "Community recipe sharing",
+      "Brew statistics and insights",
+      "Export to PDF",
+      "Multiple language support",
+      "Dark mode",
+      "Voice commands",
+      "Smart brew suggestions based on history"
+    ]
+  },
+
+  "deliverableFormat": {
+    "description": "Complete, production-ready single-page web application",
+    "files": [
+      {
+        "name": "index.html",
+        "contents": "Semantic HTML5 structure with all screens/sections"
+      },
+      {
+        "name": "styles.css",
+        "contents": "Complete CSS with design system tokens and responsive styles"
+      },
+      {
+        "name": "app.js",
+        "contents": "Vanilla JavaScript with timer logic, state management, and UI updates"
+      },
+      {
+        "name": "README.md",
+        "contents": "Setup instructions, feature overview, and usage guide"
+      }
+    ],
+    "quality": [
+      "Clean, well-commented code",
+      "Consistent naming conventions",
+      "Modular and maintainable structure",
+      "Optimized for performance",
+      "Cross-browser compatible",
+      "Mobile-responsive",
+      "Accessible (WCAG AA)"
+    ]
+  },
+
+  "promptForAI": "Create a complete V60 manual brew coffee timer web application using only HTML, CSS, and JavaScript. The app should follow the design system principles from the Fitness Dashboard (rounded corners, card-based layout, purple/blue primary colors, clean minimal aesthetic) but adapted for a coffee brewing context with warm brown/orange accents. \n\nImplement a multi-phase brew timer with circular progress indicator, pour tracking, multiple recipe support, brew history with local storage, and an intuitive mobile-first interface. Include all screens: recipe selection, brew timer, completion, history, and settings.\n\nThe app should have smooth animations, be fully responsive, accessible, and feel like a native mobile app experience. Prioritize user experience during the active brewing process with minimal required interactions and clear visual feedback. Use CSS variables for design tokens to maintain consistency throughout."
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="V60 Manual Brew Timer - Guide your perfect coffee brewing process">
+    <meta name="theme-color" content="#6C5CE7">
+    <title>V60 Brew Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main App Container -->
+    <div class="app-container">
+
+        <!-- Home Screen -->
+        <section id="home-screen" class="screen active">
+            <header class="app-header">
+                <h1 class="app-title">V60 Brew Timer</h1>
+                <p class="app-subtitle">Perfect your pour-over</p>
+            </header>
+
+            <!-- Quick Start Card -->
+            <div class="quick-start-card card">
+                <h2 class="card-title">Quick Start</h2>
+                <div class="input-group">
+                    <label for="coffee-weight-input">Coffee Weight (g)</label>
+                    <input type="number" id="coffee-weight-input" class="input-field" value="30" min="10" max="50" step="1">
+                </div>
+                <div class="input-group">
+                    <label for="ratio-select">Water Ratio</label>
+                    <select id="ratio-select" class="input-field">
+                        <option value="15">1:15 (Strong)</option>
+                        <option value="16" selected>1:16 (Balanced)</option>
+                        <option value="16.67">1:16.67 (Hoffmann)</option>
+                        <option value="17">1:17 (Light)</option>
+                    </select>
+                </div>
+                <div class="water-calc">
+                    <span class="water-label">Total Water:</span>
+                    <span id="water-amount" class="water-value">500g</span>
+                </div>
+                <button id="start-brew-btn" class="btn btn-primary btn-large">Start Brewing</button>
+            </div>
+
+            <!-- Recipe Grid -->
+            <div class="section-header">
+                <h2>Brewing Methods</h2>
+            </div>
+            <div class="recipe-grid">
+                <div class="recipe-card card" data-recipe-id="james-hoffmann">
+                    <div class="recipe-icon">☕</div>
+                    <h3 class="recipe-name">James Hoffmann</h3>
+                    <p class="recipe-description">Ultimate technique for clarity and balance</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ 3:30</span>
+                        <span class="meta-item difficulty-intermediate">Intermediate</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Select</button>
+                </div>
+
+                <div class="recipe-card card" data-recipe-id="four-six">
+                    <div class="recipe-icon">☕</div>
+                    <h3 class="recipe-name">4:6 Method</h3>
+                    <p class="recipe-description">Tetsu Kasuya's award-winning approach</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ 3:30</span>
+                        <span class="meta-item difficulty-intermediate">Intermediate</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Select</button>
+                </div>
+
+                <div class="recipe-card card" data-recipe-id="scott-rao">
+                    <div class="recipe-icon">☕</div>
+                    <h3 class="recipe-name">Scott Rao</h3>
+                    <p class="recipe-description">Precision brewing for experts</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ 3:00</span>
+                        <span class="meta-item difficulty-advanced">Advanced</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Select</button>
+                </div>
+
+                <div class="recipe-card card" data-recipe-id="custom">
+                    <div class="recipe-icon">✏️</div>
+                    <h3 class="recipe-name">Custom Recipe</h3>
+                    <p class="recipe-description">Create your own method</p>
+                    <div class="recipe-meta">
+                        <span class="meta-item">⏱️ Custom</span>
+                        <span class="meta-item difficulty-beginner">Flexible</span>
+                    </div>
+                    <button class="btn btn-secondary recipe-select-btn">Create</button>
+                </div>
+            </div>
+
+            <!-- Recent Brews -->
+            <div class="section-header">
+                <h2>Recent Brews</h2>
+                <a href="#" id="view-all-history" class="link">View All</a>
+            </div>
+            <div id="recent-brews-list" class="recent-brews">
+                <p class="empty-state">No brews yet. Start your first brew!</p>
+            </div>
+        </section>
+
+        <!-- Preparation Screen -->
+        <section id="prep-screen" class="screen">
+            <header class="screen-header">
+                <button class="btn-icon back-btn" aria-label="Go back">←</button>
+                <h2 class="screen-title">Preparation</h2>
+                <div class="header-spacer"></div>
+            </header>
+
+            <div class="prep-content">
+                <div class="prep-info card">
+                    <h3>Get Ready</h3>
+                    <div class="prep-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Coffee:</span>
+                            <span id="prep-coffee-weight" class="detail-value">30g</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Water:</span>
+                            <span id="prep-water-weight" class="detail-value">500g</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Temperature:</span>
+                            <span id="prep-temp" class="detail-value">95°C</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Grind:</span>
+                            <span class="detail-value">Medium-fine</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-card card">
+                    <h3>Checklist</h3>
+                    <div class="checklist">
+                        <label class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox">
+                            <span class="checklist-text">Rinse paper filter with hot water</span>
+                        </label>
+                        <label class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox">
+                            <span class="checklist-text">Add ground coffee to V60</span>
+                        </label>
+                        <label class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox">
+                            <span class="checklist-text">Zero your scale</span>
+                        </label>
+                        <label class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox">
+                            <span class="checklist-text">Heat water to temperature</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="ready-btn" class="btn btn-primary btn-large">I'm Ready</button>
+            </div>
+        </section>
+
+        <!-- Brew Screen -->
+        <section id="brew-screen" class="screen">
+            <header class="screen-header">
+                <button class="btn-icon back-btn" aria-label="Go back">←</button>
+                <h2 id="brew-phase-title" class="screen-title">Bloom</h2>
+                <button class="btn-icon menu-btn" aria-label="Menu">⋮</button>
+            </header>
+
+            <div class="brew-content">
+                <!-- Main Timer -->
+                <div class="timer-container">
+                    <svg class="circular-timer" viewBox="0 0 200 200">
+                        <circle class="timer-bg" cx="100" cy="100" r="90"></circle>
+                        <circle id="timer-progress" class="timer-progress" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                    <div class="timer-center">
+                        <div class="timer-icon">💧</div>
+                        <div id="timer-display" class="timer-display">0:00</div>
+                        <div id="phase-label" class="phase-label">Bloom</div>
+                    </div>
+                </div>
+
+                <!-- Current Pour Info -->
+                <div class="pour-info-card card">
+                    <div class="pour-header">
+                        <span id="pour-number" class="pour-badge">Pour 1</span>
+                        <span id="pour-timer" class="pour-time">0:00 / 0:45</span>
+                    </div>
+                    <div class="pour-instruction" id="pour-instruction">
+                        Pour water in circular motion, ensure all grounds are wet
+                    </div>
+                    <div class="target-weight-display">
+                        <div class="weight-label">Target Water</div>
+                        <div class="weight-amount">
+                            <span id="target-weight" class="weight-value">60</span>
+                            <span class="weight-unit">g</span>
+                        </div>
+                        <div class="water-wave">
+                            <div id="water-fill" class="water-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Step Preview -->
+                <div class="next-step-card card">
+                    <div class="next-step-label">Next Step</div>
+                    <div id="next-step-name" class="next-step-name">Pour 1</div>
+                    <div id="next-step-info" class="next-step-info">120g in 30s</div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="brew-controls">
+                    <button id="pause-btn" class="btn btn-primary">Pause</button>
+                    <button id="next-phase-btn" class="btn btn-secondary">Next Phase</button>
+                    <button id="reset-btn" class="btn btn-ghost">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Completion Screen -->
+        <section id="completion-screen" class="screen">
+            <div class="completion-content">
+                <div class="success-animation">
+                    <div class="success-icon">✓</div>
+                </div>
+                <h2 class="completion-title">Brew Complete!</h2>
+                <p class="completion-subtitle">Your coffee is ready to enjoy</p>
+
+                <div class="brew-summary-card card">
+                    <h3>Brew Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Recipe</span>
+                            <span id="summary-recipe" class="summary-value">James Hoffmann</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Time</span>
+                            <span id="summary-time" class="summary-value">3:30</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Coffee</span>
+                            <span id="summary-coffee" class="summary-value">30g</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Water</span>
+                            <span id="summary-water" class="summary-value">500g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rating-card card">
+                    <h3>Rate Your Brew</h3>
+                    <div class="star-rating">
+                        <button class="star-btn" data-rating="1">★</button>
+                        <button class="star-btn" data-rating="2">★</button>
+                        <button class="star-btn" data-rating="3">★</button>
+                        <button class="star-btn" data-rating="4">★</button>
+                        <button class="star-btn" data-rating="5">★</button>
+                    </div>
+                </div>
+
+                <div class="notes-card card">
+                    <h3>Tasting Notes</h3>
+                    <textarea id="tasting-notes" class="notes-textarea" placeholder="How did it taste? Any observations?"></textarea>
+                </div>
+
+                <div class="completion-actions">
+                    <button id="save-brew-btn" class="btn btn-primary btn-large">Save Brew</button>
+                    <button id="brew-again-btn" class="btn btn-secondary">Brew Again</button>
+                    <button id="home-btn" class="btn btn-ghost">Back to Home</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Screen -->
+        <section id="history-screen" class="screen">
+            <header class="screen-header">
+                <button class="btn-icon back-btn" aria-label="Go back">←</button>
+                <h2 class="screen-title">Brew History</h2>
+                <button id="clear-history-btn" class="btn-icon" aria-label="Clear history">🗑️</button>
+            </header>
+
+            <div class="history-content">
+                <div id="history-list" class="history-list">
+                    <p class="empty-state">No brew history yet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Screen -->
+        <section id="settings-screen" class="screen">
+            <header class="screen-header">
+                <button class="btn-icon back-btn" aria-label="Go back">←</button>
+                <h2 class="screen-title">Settings</h2>
+                <div class="header-spacer"></div>
+            </header>
+
+            <div class="settings-content">
+                <div class="settings-section card">
+                    <h3>Default Brewing Parameters</h3>
+                    <div class="setting-item">
+                        <label for="default-coffee-weight">Default Coffee Weight (g)</label>
+                        <input type="number" id="default-coffee-weight" class="input-field" value="30" min="10" max="50">
+                    </div>
+                    <div class="setting-item">
+                        <label for="default-ratio">Default Water Ratio</label>
+                        <select id="default-ratio" class="input-field">
+                            <option value="15">1:15 (Strong)</option>
+                            <option value="16">1:16 (Balanced)</option>
+                            <option value="16.67" selected>1:16.67 (Hoffmann)</option>
+                            <option value="17">1:17 (Light)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="default-temp">Water Temperature (°C)</label>
+                        <input type="number" id="default-temp" class="input-field" value="95" min="85" max="100">
+                    </div>
+                </div>
+
+                <div class="settings-section card">
+                    <h3>Notifications</h3>
+                    <div class="setting-item">
+                        <label class="toggle-label">
+                            <span>Sound Alerts</span>
+                            <input type="checkbox" id="sound-alerts" class="toggle-checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="toggle-label">
+                            <span>Phase Change Alerts</span>
+                            <input type="checkbox" id="phase-alerts" class="toggle-checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section card">
+                    <h3>Data Management</h3>
+                    <button id="export-data-btn" class="btn btn-secondary">Export Brew Data</button>
+                    <button id="import-data-btn" class="btn btn-secondary">Import Brew Data</button>
+                    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                </div>
+
+                <div class="settings-section card">
+                    <h3>About</h3>
+                    <p class="about-text">V60 Brew Timer v1.0</p>
+                    <p class="about-text">Perfect your pour-over coffee brewing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-screen="home">
+                <span class="nav-icon">☕</span>
+                <span class="nav-label">Brew</span>
+            </button>
+            <button class="nav-item" data-screen="recipes">
+                <span class="nav-icon">📖</span>
+                <span class="nav-label">Recipes</span>
+            </button>
+            <button class="nav-item" data-screen="history">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">History</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title" class="modal-title">Confirm Action</h3>
+            <p id="modal-message" class="modal-message">Are you sure?</p>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+                <button id="modal-confirm" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
