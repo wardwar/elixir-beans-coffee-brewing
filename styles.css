@@ -87,6 +87,8 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -141,11 +143,13 @@ h3 { font-size: var(--font-size-lg); }
    ======================================== */
 .app-container {
   max-width: 480px;
+  width: 100%;
   margin: 0 auto;
   min-height: 100vh;
   background-color: var(--color-background);
   position: relative;
   padding-bottom: 80px;
+  overflow-x: hidden;
 }
 
 .screen {
@@ -417,12 +421,6 @@ h3 { font-size: var(--font-size-lg); }
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-xl);
-}
-
-@media (min-width: 400px) {
-  .recipe-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .recipe-card {
@@ -1450,14 +1448,190 @@ h3 { font-size: var(--font-size-lg); }
    Responsive Design
    ======================================== */
 
+/* Mobile (320-420px) - Small phones like iPhone XR */
+@media (max-width: 420px) {
+  :root {
+    --spacing-xs: 4px;
+    --spacing-sm: 6px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+  }
+
+  .screen {
+    padding: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+  }
+
+  .card {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+  }
+
+  .app-header {
+    padding: var(--spacing-sm) 0 var(--spacing-md) 0;
+  }
+
+  .app-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: 2px;
+  }
+
+  .app-subtitle {
+    font-size: 11px;
+  }
+
+  .star-decoration {
+    font-size: 12px;
+  }
+
+  .brand-badge {
+    font-size: var(--font-size-xl);
+    margin-bottom: 4px;
+  }
+
+  .brew-content,
+  .prep-content {
+    max-width: 100%;
+  }
+
+  .timer-container {
+    width: 160px;
+    height: 160px;
+    margin: var(--spacing-sm) auto;
+  }
+
+  .timer-display {
+    font-size: var(--font-size-xl);
+  }
+
+  .brew-recipe-banner {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .recipe-info-card {
+    padding: var(--spacing-md);
+  }
+
+  .recipe-info-icon {
+    font-size: 36px;
+  }
+
+  .recipe-info-name {
+    font-size: var(--font-size-lg);
+  }
+
+  .weight-value {
+    font-size: var(--font-size-xl);
+  }
+
+  .weight-unit {
+    font-size: var(--font-size-base);
+  }
+
+  .pour-instruction {
+    padding: var(--spacing-xs);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .brew-controls .btn {
+    padding: var(--spacing-xs);
+    font-size: 11px;
+  }
+
+  .parameters-grid {
+    gap: var(--spacing-sm);
+  }
+
+  .section-header {
+    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+  }
+
+  .input-field {
+    font-size: 16px;
+    padding: var(--spacing-sm);
+  }
+
+  .btn {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .btn-large {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+
+  .screen-header {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .screen-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .pour-badge {
+    font-size: 10px;
+    padding: 2px var(--spacing-xs);
+  }
+
+  .pour-time {
+    font-size: var(--font-size-sm);
+  }
+
+  .switch-status {
+    padding: 6px var(--spacing-sm);
+    font-size: 11px;
+  }
+
+  .total-water-info {
+    padding: 4px var(--spacing-sm);
+    gap: 4px;
+  }
+
+  .total-label,
+  .total-value,
+  .total-separator {
+    font-size: 10px;
+  }
+
+  .prep-details {
+    gap: var(--spacing-sm);
+  }
+
+  .detail-value {
+    font-size: var(--font-size-base);
+  }
+
+  .suggestion-item {
+    padding: var(--spacing-sm);
+  }
+
+  .card-title {
+    font-size: var(--font-size-base);
+    margin-bottom: 4px;
+  }
+
+  .card-subtitle {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .water-calc {
+    padding: var(--spacing-sm);
+  }
+
+  .water-value {
+    font-size: var(--font-size-lg);
+  }
+}
+
 /* Mobile (320-480px) - Base styles above */
 
 /* Tablet (481-768px) */
 @media (min-width: 481px) {
-  .recipe-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .timer-container {
     width: 220px;
     height: 220px;
@@ -1473,10 +1647,6 @@ h3 { font-size: var(--font-size-lg); }
   .timer-container {
     width: 240px;
     height: 240px;
-  }
-
-  .recipe-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
