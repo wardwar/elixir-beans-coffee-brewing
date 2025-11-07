@@ -17,7 +17,7 @@
             <header class="app-header">
                 <div class="brand-badge">⚗️</div>
                 <h1 class="app-title">Elixir Beans</h1>
-                <p class="app-subtitle">for coffee adventurers</p>
+                <p class="app-subtitle">V60 Brew Timer</p>
                 <div class="star-decoration" style="top: 20px; left: 50%; transform: translateX(-80px);">✦</div>
                 <div class="star-decoration" style="top: 20px; right: 50%; transform: translateX(80px); animation-delay: 1s;">✦</div>
             </header>
@@ -159,6 +159,13 @@
             </header>
 
             <div class="prep-content">
+                <!-- Recipe Info Card -->
+                <div class="recipe-info-card card">
+                    <div class="recipe-info-icon">⚗️</div>
+                    <h2 id="prep-recipe-name" class="recipe-info-name">James Hoffmann Method</h2>
+                    <div id="prep-brewer-badge" class="brewer-badge" style="display: none;">Hario Switch</div>
+                    <p id="prep-recipe-description" class="recipe-info-description">The ultimate V60 technique for clarity and balance</p>
+                </div>
                 <div class="prep-info card">
                     <h3>Brew Parameters</h3>
                     <div class="prep-details">
@@ -228,6 +235,12 @@
             </header>
 
             <div class="brew-content">
+                <!-- Recipe Info Banner -->
+                <div class="brew-recipe-banner">
+                    <div class="brew-recipe-name" id="brew-recipe-name">James Hoffmann Method</div>
+                    <div class="brew-recipe-description" id="brew-recipe-description">The ultimate V60 technique for clarity and balance</div>
+                </div>
+
                 <!-- Main Timer -->
                 <div class="timer-container">
                     <svg class="circular-timer" viewBox="0 0 200 200">
@@ -247,26 +260,26 @@
                         <span id="pour-number" class="pour-badge">Pour 1</span>
                         <span id="pour-timer" class="pour-time">0:00 / 0:45</span>
                     </div>
+                    <div id="switch-status" class="switch-status" style="display: none;">
+                        <span class="switch-icon">🔄</span>
+                        <span id="switch-text" class="switch-text">Valve Closed</span>
+                    </div>
                     <div class="pour-instruction" id="pour-instruction">
                         Pour water in circular motion, ensure all grounds are wet
                     </div>
                     <div class="target-weight-display">
-                        <div class="weight-label">Target Water</div>
+                        <div class="weight-label">Water for this phase</div>
                         <div class="weight-amount">
                             <span id="target-weight" class="weight-value">60</span>
                             <span class="weight-unit">g</span>
                         </div>
-                        <div class="water-wave">
-                            <div id="water-fill" class="water-fill"></div>
+                        <div class="total-water-info">
+                            <span class="total-label">Total poured:</span>
+                            <span id="total-water-poured" class="total-value">60g</span>
+                            <span class="total-separator">/</span>
+                            <span id="total-water-target" class="total-value">500g</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Next Step Preview -->
-                <div class="next-step-card card">
-                    <div class="next-step-label">Next Step</div>
-                    <div id="next-step-name" class="next-step-name">Pour 1</div>
-                    <div id="next-step-info" class="next-step-info">120g in 30s</div>
                 </div>
 
                 <!-- Control Buttons -->

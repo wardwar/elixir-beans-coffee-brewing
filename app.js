@@ -242,6 +242,7 @@ const recipes = {
 const state = {
   currentScreen: 'home',
   currentRecipe: null,
+  selectedRecipeId: null, // Track which recipe was selected
   currentPhaseIndex: 0,
   brewStartTime: null,
   timerInterval: null,
@@ -349,6 +350,9 @@ function showScreen(screenId) {
 // Back button handlers
 document.querySelectorAll('.back-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    // Clear selected recipe when going back to home
+    state.selectedRecipeId = null;
+    state.currentRecipe = null;
     showScreen('home');
   });
 });
@@ -388,80 +392,62 @@ document.getElementById('start-brew-btn').addEventListener('click', () => {
   startManualBrew();
 });
 
-// Recipe card selection - populates Quick Start fields with recipe defaults
-document.querySelectorAll('.recipe-select-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const card = e.target.closest('.recipe-card');
-    const recipeId = card.getAttribute('data-recipe-id');
-
-    if (recipeId === 'custom') {
-      alert('Custom recipe creation coming soon!');
-      return;
-    }
-
-    // Load recipe into Quick Start fields so user can review/modify before brewing
-    const recipe = recipes[recipeId];
-    if (recipe) {
-      document.getElementById('coffee-weight-input').value = recipe.coffeeWeight;
-      document.getElementById('ratio-select').value = recipe.ratio;
-      document.getElementById('temp-input').value = recipe.temperature;
-      document.getElementById('grind-select').value = recipe.grindSize;
-      updateWaterCalculation();
-
-      // Show visual feedback
-      const quickStartCard = document.querySelector('.quick-start-card');
-      quickStartCard.style.animation = 'pulse 0.5s ease-out';
-      setTimeout(() => {
-        quickStartCard.style.animation = '';
-      }, 500);
-
-      // Scroll to Quick Start section
-      quickStartCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
 function startManualBrew() {
-  // Create a manual recipe using the user's input values from Quick Start
+  // Get user's custom input values from Quick Start
   const coffeeWeight = parseFloat(document.getElementById('coffee-weight-input').value);
   const ratio = parseFloat(document.getElementById('ratio-select').value);
   const totalWater = Math.round(coffeeWeight * ratio);
   const temperature = parseFloat(document.getElementById('temp-input').value);
   const grindSize = document.getElementById('grind-select').value;
 
-  // Create a simple manual recipe based on user input
-  state.currentRecipe = {
-    id: 'manual',
-    name: 'Manual Brew',
-    description: 'Custom brew with your settings',
-    difficulty: 'Custom',
-    coffeeWeight: coffeeWeight,
-    ratio: ratio,
-    totalWater: totalWater,
-    totalTime: 210,
-    temperature: temperature,
-    grindSize: grindSize,
-    phases: [
-      {
-        name: 'Bloom',
-        duration: 45,
-        waterAmount: Math.round(coffeeWeight * 2),
-        instruction: 'Pour water in circular motion, ensure all grounds are wet'
-      },
-      {
-        name: 'Main Pour',
-        duration: 120,
-        waterAmount: totalWater - Math.round(coffeeWeight * 2),
-        instruction: 'Pour remaining water in steady circular motion'
-      },
-      {
-        name: 'Drawdown',
-        duration: 45,
-        waterAmount: 0,
-        instruction: 'Let coffee drain completely'
-      }
-    ]
-  };
+  // Check if a recipe was selected
+  if (state.selectedRecipeId && recipes[state.selectedRecipeId]) {
+    // Use the selected recipe's phases, but with custom parameters
+    const selectedRecipe = recipes[state.selectedRecipeId];
+
+    state.currentRecipe = {
+      ...selectedRecipe,
+      coffeeWeight: coffeeWeight,
+      ratio: ratio,
+      totalWater: totalWater,
+      temperature: temperature,
+      grindSize: grindSize
+    };
+  } else {
+    // No recipe selected - create a simple manual recipe
+    state.currentRecipe = {
+      id: 'manual',
+      name: 'Manual Brew',
+      description: 'Custom brew with your settings',
+      difficulty: 'Custom',
+      coffeeWeight: coffeeWeight,
+      ratio: ratio,
+      totalWater: totalWater,
+      totalTime: 210,
+      temperature: temperature,
+      grindSize: grindSize,
+      phases: [
+        {
+          name: 'Bloom',
+          duration: 45,
+          waterAmount: Math.round(coffeeWeight * 2),
+          instruction: 'Pour water in circular motion, ensure all grounds are wet'
+        },
+        {
+          name: 'Main Pour',
+          duration: 120,
+          waterAmount: totalWater - Math.round(coffeeWeight * 2),
+          instruction: 'Pour remaining water in steady circular motion'
+        },
+        {
+          name: 'Drawdown',
+          duration: 45,
+          waterAmount: 0,
+          instruction: 'Let coffee drain completely'
+        }
+      ]
+    };
+  }
 
   state.currentPhaseIndex = 0;
   state.isPaused = false;
@@ -526,6 +512,23 @@ document.getElementById('view-all-history').addEventListener('click', (e) => {
 function showPrepScreen() {
   showScreen('prep');
 
+  // Populate recipe information
+  const recipeName = state.currentRecipe?.name || 'Manual Brew';
+  const recipeDescription = state.currentRecipe?.description || 'Custom brew with your settings';
+  const brewer = state.currentRecipe?.brewer;
+
+  document.getElementById('prep-recipe-name').textContent = recipeName;
+  document.getElementById('prep-recipe-description').textContent = recipeDescription;
+
+  // Show brewer badge if it's not a standard V60
+  const brewerBadge = document.getElementById('prep-brewer-badge');
+  if (brewer && brewer !== 'V60') {
+    brewerBadge.textContent = brewer;
+    brewerBadge.style.display = 'inline-block';
+  } else {
+    brewerBadge.style.display = 'none';
+  }
+
   // Ensure we're using the current recipe's values
   const coffeeWeight = state.currentRecipe?.coffeeWeight || state.currentBrew.coffeeWeight;
   const totalWater = state.currentRecipe?.totalWater || state.currentBrew.totalWater;
@@ -552,6 +555,14 @@ document.getElementById('ready-btn').addEventListener('click', () => {
 // ========================================
 function startBrewing() {
   showScreen('brew');
+
+  // Populate recipe information on brew screen
+  const recipeName = state.currentRecipe?.name || 'Manual Brew';
+  const recipeDescription = state.currentRecipe?.description || 'Custom brew with your settings';
+
+  document.getElementById('brew-recipe-name').textContent = recipeName;
+  document.getElementById('brew-recipe-description').textContent = recipeDescription;
+
   state.brewStartTime = Date.now();
   state.currentPhaseIndex = 0;
   state.isPaused = false;
@@ -591,20 +602,35 @@ function updateBrewScreen() {
   document.getElementById('target-weight').textContent = phase.waterAmount;
   document.getElementById('pour-timer').textContent = `0:00 / ${formatTime(phase.duration)}`;
 
-  // Reset water fill animation
-  const waterFill = document.getElementById('water-fill');
-  if (waterFill) {
-    waterFill.style.height = '0%';
+  // Calculate total water poured up to current phase
+  let totalPoured = 0;
+  for (let i = 0; i <= state.currentPhaseIndex; i++) {
+    totalPoured += state.currentRecipe.phases[i].waterAmount;
   }
 
-  // Update next step
-  const nextPhase = getNextPhase();
-  if (nextPhase) {
-    document.getElementById('next-step-name').textContent = nextPhase.name;
-    document.getElementById('next-step-info').textContent = `${nextPhase.waterAmount}g in ${nextPhase.duration}s`;
+  // Update total water display
+  document.getElementById('total-water-poured').textContent = `${totalPoured}g`;
+  document.getElementById('total-water-target').textContent = `${state.currentRecipe.totalWater}g`;
+
+  // Update switch status for Hario Switch recipes
+  const switchStatus = document.getElementById('switch-status');
+  const switchText = document.getElementById('switch-text');
+  const switchIcon = document.querySelector('.switch-icon');
+
+  if (state.currentRecipe?.brewer === 'Hario Switch' && phase.hasOwnProperty('switchClosed')) {
+    switchStatus.style.display = 'flex';
+
+    if (phase.switchClosed) {
+      switchText.textContent = 'Valve Closed';
+      switchIcon.textContent = '🔒';
+      switchStatus.className = 'switch-status valve-closed';
+    } else {
+      switchText.textContent = 'Valve Open';
+      switchIcon.textContent = '🔓';
+      switchStatus.className = 'switch-status valve-open';
+    }
   } else {
-    document.getElementById('next-step-name').textContent = 'Final Phase';
-    document.getElementById('next-step-info').textContent = 'Almost done!';
+    switchStatus.style.display = 'none';
   }
 }
 
@@ -635,13 +661,6 @@ function updateTimerDisplay() {
 
     // Update circular progress
     updateCircularProgress(Math.min(phaseProgress, 1));
-
-    // Update water fill animation
-    const waterFill = document.getElementById('water-fill');
-    if (waterFill) {
-      const fillHeight = Math.min(phaseProgress * 100, 100);
-      waterFill.style.height = `${fillHeight}%`;
-    }
   }
 }
 
@@ -986,6 +1005,42 @@ document.getElementById('modal-overlay').addEventListener('click', (e) => {
 // ========================================
 // Initialization
 // ========================================
+function setupRecipeCardListeners() {
+  // Recipe card selection - navigate directly to preparation
+  document.querySelectorAll('.recipe-select-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const card = e.target.closest('.recipe-card');
+      const recipeId = card.getAttribute('data-recipe-id');
+
+      if (recipeId === 'custom') {
+        alert('Custom recipe creation coming soon!');
+        return;
+      }
+
+      // Store the selected recipe ID and start brew process
+      state.selectedRecipeId = recipeId;
+      const recipe = recipes[recipeId];
+
+      if (recipe) {
+        // Set current recipe with its exact parameters
+        state.currentRecipe = recipe;
+        state.currentPhaseIndex = 0;
+        state.isPaused = false;
+        state.pausedTime = 0;
+        state.elapsedTime = 0;
+
+        // Update current brew data
+        state.currentBrew.coffeeWeight = recipe.coffeeWeight;
+        state.currentBrew.waterRatio = recipe.ratio;
+        state.currentBrew.totalWater = recipe.totalWater;
+
+        // Go directly to preparation screen
+        showPrepScreen();
+      }
+    });
+  });
+}
+
 function init() {
   loadSettings();
   loadSettingsUI();
@@ -998,6 +1053,9 @@ function init() {
   document.getElementById('temp-input').value = state.settings.defaultTemp;
   document.getElementById('grind-select').value = 'Medium-fine';
   updateWaterCalculation();
+
+  // Setup recipe card event listeners
+  setupRecipeCardListeners();
 }
 
 // Start the app when DOM is loaded

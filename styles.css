@@ -520,6 +520,47 @@ h3 { font-size: var(--font-size-lg); }
   margin: 0 auto;
 }
 
+/* Recipe Info Card - Preparation Screen */
+.recipe-info-card {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(107, 58, 124, 0.12), rgba(244, 228, 193, 0.3));
+  border: 3px solid var(--color-elixir-purple);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+}
+
+.recipe-info-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.recipe-info-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-elixir-purple);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.2;
+}
+
+.recipe-info-description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.brewer-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-enchantment-orange), var(--color-magic-gold));
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin: var(--spacing-sm) 0;
+  box-shadow: var(--shadow-sm);
+}
+
 .prep-info h3,
 .checklist-card h3 {
   margin-bottom: var(--spacing-md);
@@ -636,12 +677,36 @@ h3 { font-size: var(--font-size-lg); }
   margin: 0 auto;
 }
 
+/* Recipe Info Banner - Brew Screen */
+.brew-recipe-banner {
+  text-align: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(135deg, rgba(107, 58, 124, 0.08), rgba(244, 228, 193, 0.2));
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-elixir-cream);
+  margin-bottom: var(--spacing-md);
+}
+
+.brew-recipe-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-elixir-purple);
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.brew-recipe-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+}
+
 /* Circular Timer - Badge Style */
 .timer-container {
   position: relative;
-  width: 240px;
-  height: 240px;
-  margin: var(--spacing-xl) auto;
+  width: 180px;
+  height: 180px;
+  margin: var(--spacing-md) auto;
 }
 
 .timer-container::before {
@@ -699,12 +764,12 @@ h3 { font-size: var(--font-size-lg); }
 }
 
 .timer-icon {
-  font-size: var(--font-size-3xl);
-  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-xs);
 }
 
 .timer-display {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-elixir-purple);
   line-height: 1;
@@ -712,7 +777,7 @@ h3 { font-size: var(--font-size-lg); }
 }
 
 .phase-label {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-elixir-gold);
   font-weight: var(--font-weight-medium);
 }
@@ -727,48 +792,85 @@ h3 { font-size: var(--font-size-lg); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .pour-badge {
   background: linear-gradient(135deg, var(--color-elixir-purple), var(--color-elixir-purple-dark));
   color: white;
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-sm);
+  padding: 4px var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   box-shadow: var(--shadow-sm);
 }
 
 .pour-time {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-elixir-purple);
 }
 
-.pour-instruction {
-  padding: var(--spacing-md);
-  background-color: var(--color-card-cream);
+/* Switch Status Indicator */
+.switch-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(135deg, rgba(255, 140, 66, 0.15), rgba(255, 165, 0, 0.15));
+  border: 2px solid var(--color-enchantment-orange);
   border-radius: var(--radius-md);
-  margin-bottom: var(--spacing-md);
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-sm);
+  color: var(--color-elixir-purple);
+}
+
+.switch-status.valve-closed {
+  background: linear-gradient(135deg, rgba(107, 58, 124, 0.15), rgba(75, 38, 84, 0.15));
+  border-color: var(--color-elixir-purple);
+}
+
+.switch-status.valve-open {
+  background: linear-gradient(135deg, rgba(0, 217, 165, 0.15), rgba(0, 200, 150, 0.15));
+  border-color: var(--color-success);
+}
+
+.switch-icon {
+  font-size: var(--font-size-base);
+}
+
+.switch-text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--font-size-xs);
+}
+
+.pour-instruction {
+  padding: var(--spacing-sm);
+  background-color: var(--color-card-cream);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-text-primary);
-  border-left: 4px solid var(--color-elixir-purple);
+  border-left: 3px solid var(--color-elixir-purple);
+  line-height: 1.4;
 }
 
 /* Target Weight Display */
 .target-weight-display {
   text-align: center;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-sm) 0;
 }
 
 .weight-label {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 4px;
 }
 
 .weight-amount {
@@ -776,20 +878,50 @@ h3 { font-size: var(--font-size-lg); }
   align-items: baseline;
   justify-content: center;
   gap: var(--spacing-xs);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
 }
 
 .weight-value {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-elixir-purple);
   line-height: 1;
 }
 
 .weight-unit {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   color: var(--color-elixir-gold);
   font-weight: var(--font-weight-medium);
+}
+
+/* Total Water Info */
+.total-water-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: linear-gradient(135deg, rgba(107, 58, 124, 0.08), rgba(244, 228, 193, 0.15));
+  border-radius: var(--radius-md);
+  margin-top: var(--spacing-sm);
+}
+
+.total-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.total-value {
+  font-size: var(--font-size-sm);
+  color: var(--color-elixir-purple);
+  font-weight: var(--font-weight-bold);
+}
+
+.total-separator {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 2px;
 }
 
 /* Water Wave Animation */
@@ -887,12 +1019,14 @@ h3 { font-size: var(--font-size-lg); }
 /* Brew Controls */
 .brew-controls {
   display: flex;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
 }
 
 .brew-controls .btn {
   flex: 1;
+  padding: var(--spacing-sm) var(--spacing-xs);
+  font-size: var(--font-size-xs);
 }
 
 /* ========================================
